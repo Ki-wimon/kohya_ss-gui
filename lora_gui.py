@@ -45,18 +45,12 @@ save_style_symbol = '\U0001f4be'  # 💾
 document_symbol = '\U0001F4C4'   # 📄
 path_of_this_folder = os.getcwd()
 
-def getlocon(existance):
-    now_path = os.getcwd()
-    if existance:
-        print('Checking LoCon script version...')
-        os.chdir(os.path.join(path_of_this_folder, 'locon'))
-        os.system('git pull')
-        os.chdir(now_path)
-    else:
-        os.chdir(path_of_this_folder)
-        os.system('git clone https://github.com/KohakuBlueleaf/LoCon.git locon')
-        os.chdir(now_path)
-
+def getlocon():
+    os.system('pip install -U -q locon')
+    
+getlocon()
+import locon
+      
 def save_configuration(
     save_as,
     file_path,
@@ -447,8 +441,7 @@ def train_model(
     if not float(prior_loss_weight) == 1.0:
         run_cmd += f' --prior_loss_weight={prior_loss_weight}'
     if locon:
-        getlocon(os.path.exists(os.path.join(path_of_this_folder, 'locon')))
-        run_cmd += f' --network_module=locon.locon.locon_kohya'
+        run_cmd += f' --network_module=locon.locon_kohya'
         run_cmd += f' --network_args "conv_dim={conv_dim}" "conv_alpha={conv_alpha}"'
     else:
         run_cmd += f' --network_module=networks.lora'
